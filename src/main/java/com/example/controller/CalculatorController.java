@@ -34,6 +34,9 @@ public class CalculatorController {
         if ("add".equals(operation)) {
             result = calculatorService.add(num1, num2);
             symbol = "+";
+        } else if ("multiply".equals(operation)) {
+            result = calculatorService.multiply(num1, num2);
+            symbol = "*";
         } else {
             result = calculatorService.subtract(num1, num2);
             symbol = "-";

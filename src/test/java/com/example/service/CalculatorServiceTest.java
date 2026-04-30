@@ -78,4 +78,46 @@ class CalculatorServiceTest {
         // then
         assertEquals(-10, result);
     }
+
+    @Test
+    @DisplayName("Should correctly multiply two positive integers")
+    void shouldMultiplyTwoPositiveIntegers() {
+        // given
+        int num1 = 5;
+        int num2 = 4;
+
+        // when
+        int result = calculatorService.multiply(num1, num2);
+
+        // then
+        assertEquals(20, result);
+    }
+
+    @Test
+    @DisplayName("Should correctly multiply involving zero")
+    void shouldMultiplyWithZero() {
+        // given
+        int num1 = 10;
+        int num2 = 0;
+
+        // when
+        int result = calculatorService.multiply(num1, num2);
+
+        // then
+        assertEquals(0, result);
+    }
+
+    @Test
+    @DisplayName("Should correctly multiply involving negative numbers")
+    void shouldMultiplyWithNegativeNumbers() {
+        // given
+        int num1 = -5;
+        int num2 = 3;
+
+        // when
+        int result = calculatorService.multiply(num1, num2);
+
+        // then
+        assertEquals(-15, result);
+    }
 }
