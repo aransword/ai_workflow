@@ -50,4 +50,32 @@ class CalculatorServiceTest {
         // then
         assertEquals(10, result);
     }
+
+    @Test
+    @DisplayName("Should correctly subtract two positive integers")
+    void shouldSubtractTwoPositiveIntegers() {
+        // given
+        int num1 = 20;
+        int num2 = 10;
+
+        // when
+        int result = calculatorService.subtract(num1, num2);
+
+        // then
+        assertEquals(10, result);
+    }
+
+    @Test
+    @DisplayName("Should correctly subtract resulting in a negative number")
+    void shouldSubtractResultingInNegative() {
+        // given
+        int num1 = 10;
+        int num2 = 20;
+
+        // when
+        int result = calculatorService.subtract(num1, num2);
+
+        // then
+        assertEquals(-10, result);
+    }
 }
