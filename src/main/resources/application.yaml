@@ -1,3 +1,9 @@
 spring:
   application:
     name: ai-workflow
+
+logging:
+  file:
+    name: logs/ai-workflow.log
+  level:
+    com.example: INFO
