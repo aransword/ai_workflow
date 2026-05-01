@@ -27,26 +27,34 @@ public class CalculatorController {
                             @RequestParam("operation") String operation,
                             Model model) {
         log.info("Request to calculate {}: {} and {}", operation, num1, num2);
-        
-        int result;
-        String symbol;
-        
-        if ("add".equals(operation)) {
-            result = calculatorService.add(num1, num2);
-            symbol = "+";
-        } else if ("multiply".equals(operation)) {
-            result = calculatorService.multiply(num1, num2);
-            symbol = "*";
-        } else {
-            result = calculatorService.subtract(num1, num2);
-            symbol = "-";
+
+        try {
+            int result = calculatorService.calculate(num1, num2, operation);
+            String symbol = getSymbol(operation);
+
+            model.addAttribute("num1", num1);
+            model.addAttribute("num2", num2);
+            model.addAttribute("operation", operation);
+            model.addAttribute("symbol", symbol);
+            model.addAttribute("result", result);
+        } catch (IllegalArgumentException e) {
+            log.error("Calculation error: {}", e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("num1", num1);
+            model.addAttribute("num2", num2);
+            model.addAttribute("operation", operation);
         }
-        
-        model.addAttribute("num1", num1);
-        model.addAttribute("num2", num2);
-        model.addAttribute("operation", operation);
-        model.addAttribute("symbol", symbol);
-        model.addAttribute("result", result);
+
         return "calculator";
+    }
+
+    private String getSymbol(String operation) {
+        return switch (operation) {
+            case "add" -> "+";
+            case "subtract" -> "-";
+            case "multiply" -> "*";
+            case "divide" -> "/";
+            default -> "?";
+        };
     }
 }
