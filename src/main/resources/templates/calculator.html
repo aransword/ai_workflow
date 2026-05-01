@@ -67,10 +67,15 @@
                 <option value="add" th:selected="${operation == 'add'}">Add (+)</option>
                 <option value="subtract" th:selected="${operation == 'subtract'}">Subtract (-)</option>
                 <option value="multiply" th:selected="${operation == 'multiply'}">Multiply (*)</option>
+                <option value="divide" th:selected="${operation == 'divide'}">Divide (/)</option>
             </select>
         </div>
         <button type="submit">Calculate</button>
     </form>
+
+    <div th:if="${error != null}" class="result" style="color: red; background-color: #ffe6e6; border: 1px solid red;">
+        <h3 th:text="${error}">Error Message</h3>
+    </div>
 
     <div th:if="${result != null}" class="result">
         <h3>Result: <span th:text="${num1} + ' ' + ${symbol} + ' ' + ${num2} + ' = ' + ${result}"></span></h3>
