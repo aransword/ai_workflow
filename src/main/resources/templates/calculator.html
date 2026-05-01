@@ -46,6 +46,36 @@
             border-radius: 5px;
             text-align: center;
         }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .keypad-btn {
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            user-select: none;
+        }
+        .keypad-btn:hover {
+            background-color: #dee2e6;
+        }
+        .keypad-btn:active {
+            background-color: #ced4da;
+        }
+        .keypad-btn.special {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .keypad-btn.special:hover {
+            background-color: #f1b0b7;
+        }
     </style>
 </head>
 <body>
@@ -80,7 +110,49 @@
     <div th:if="${result != null}" class="result">
         <h3>Result: <span th:text="${num1} + ' ' + ${symbol} + ' ' + ${num2} + ' = ' + ${result}"></span></h3>
     </div>
+
+    <div class="keypad">
+        <div class="keypad-btn" onclick="appendNumber('1')">1</div>
+        <div class="keypad-btn" onclick="appendNumber('2')">2</div>
+        <div class="keypad-btn" onclick="appendNumber('3')">3</div>
+        <div class="keypad-btn" onclick="appendNumber('4')">4</div>
+        <div class="keypad-btn" onclick="appendNumber('5')">5</div>
+        <div class="keypad-btn" onclick="appendNumber('6')">6</div>
+        <div class="keypad-btn" onclick="appendNumber('7')">7</div>
+        <div class="keypad-btn" onclick="appendNumber('8')">8</div>
+        <div class="keypad-btn" onclick="appendNumber('9')">9</div>
+        <div class="keypad-btn special" onclick="clearInput()">C</div>
+        <div class="keypad-btn" onclick="appendNumber('0')">0</div>
+        <div class="keypad-btn special" onclick="backspace()">←</div>
+    </div>
 </div>
+
+<script>
+    let activeInput = document.getElementById('num1');
+
+    document.getElementById('num1').addEventListener('focus', function() {
+        activeInput = this;
+    });
+
+    document.getElementById('num2').addEventListener('focus', function() {
+        activeInput = this;
+    });
+
+    function appendNumber(num) {
+        activeInput.value = activeInput.value + num;
+        activeInput.focus();
+    }
+
+    function clearInput() {
+        activeInput.value = '';
+        activeInput.focus();
+    }
+
+    function backspace() {
+        activeInput.value = activeInput.value.slice(0, -1);
+        activeInput.focus();
+    }
+</script>
 
 </body>
 </html>
