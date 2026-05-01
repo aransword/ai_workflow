@@ -1,0 +1,17 @@
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# 1. 기존 기능: Git 기본 안내 주석 제거
+/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' "$COMMIT_MSG_FILE"
+
+# 2. 추가된 기능: 브랜치명에서 이슈 번호 추출 및 메시지 맨 앞에 추가
+BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# 브랜치 이름에서 숫자(이슈 번호) 추출
+ISSUE_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '[0-9]+' | head -1)
+
+# 추출된 이슈 번호가 있고, 커밋 메시지에 아직 해당 번호가 없다면 추가
+if [ -n "$ISSUE_NUMBER" ] && ! grep -q "#$ISSUE_NUMBER" "$COMMIT_MSG_FILE"; then
+  sed -i.bak -e "1s/^/(#$ISSUE_NUMBER) /" "$COMMIT_MSG_FILE"
+fi

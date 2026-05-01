@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'com.example'
@@ -30,4 +31,19 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.register('installGitHooks', Copy) {
+	from new File(rootProject.rootDir, 'scripts/prepare-commit-msg')
+	into new File(rootProject.rootDir, '.git/hooks')
+
+	doLast {
+		if (!System.getProperty('os.name').toLowerCase().contains('windows')) {
+			Runtime.getRuntime().exec("chmod -R +x .git/hooks/")
+		}
+	}
+}
+
+tasks.named('compileJava') {
+	dependsOn 'installGitHooks'
 }
